@@ -9,16 +9,31 @@ public class DBSingleton {
 	// private static DBSingleton instance= new DBSingleton();
 	private static DBSingleton instance = null;
 	private Connection conn = null;
-	private String JDBC_URL="jdbc:derby:demo;create=true";
+	//derby
+	private String JDBC_URL = "jdbc:derby:demo;create=true";
+	//postgre
+	private static final String HOST = "jdbc:postgresql://localhost:5432/";
 	
+	private static final String DB_NAME = "LOCAL";
+	private static final String USERNAME = "postgres";
+	private static final String PASSWORD = "password";
 
 	private DBSingleton() {
-			try{
-				DriverManager.registerDriver(new org.apache.derby.jdbc.EmbeddedDriver());
-			}
-			catch(SQLException e){
-				e.printStackTrace();
-			}
+		/*
+		 try{ 
+		 	DriverManager.registerDriver(new org.apache.derby.jdbc.EmbeddedDriver()); 
+		 } 
+		 catch(SQLException e) {
+		  e.printStackTrace();
+		 }
+		 */
+		try {
+			Class.forName("org.postgresql.Driver");
+			conn = DriverManager.getConnection(HOST + DB_NAME, USERNAME, PASSWORD);
+			System.out.println("DB connected");
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
 	} 
 
 	public static DBSingleton getInstance() {
@@ -38,7 +53,8 @@ public class DBSingleton {
 			synchronized (DBSingleton.class) {
 				if (conn == null) {
 					try {
-						conn = DriverManager.getConnection(JDBC_URL);
+						//conn = DriverManager.getConnection(JDBC_URL);
+						conn= DriverManager.getConnection(HOST + DB_NAME, USERNAME, PASSWORD);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
