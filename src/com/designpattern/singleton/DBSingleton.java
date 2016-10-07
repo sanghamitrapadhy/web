@@ -53,8 +53,8 @@ public class DBSingleton {
 			synchronized (DBSingleton.class) {
 				if (conn == null) {
 					try {
-						//conn = DriverManager.getConnection(JDBC_URL);
-						conn= DriverManager.getConnection(HOST + DB_NAME, USERNAME, PASSWORD);
+						// conn = DriverManager.getConnection(JDBC_URL);
+						conn = DriverManager.getConnection(HOST + DB_NAME, USERNAME, PASSWORD);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
